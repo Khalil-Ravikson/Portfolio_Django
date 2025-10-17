@@ -11,11 +11,24 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', 'False').lower() in ['true', '1', 't']
 
+# CORREÇÃO DEFINITIVA PARA ALLOWED_HOSTS
 ALLOWED_HOSTS = []
-RENDER_EXTERNAL_HOSTNAME = os.getenv('RENDER_EXTERNAL_HOSTNAME')
-if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
+# Em ambiente de desenvolvimento, permite aceder via localhost
+if DEBUG:
+    ALLOWED_HOSTS.append('127.0.0.1')
+    ALLOWED_HOSTS.append('localhost')
+
+# Em produção, adiciona os domínios a partir das variáveis de ambiente
+# Esta abordagem é mais robusta pois tenta múltiplas fontes.
+render_hostname = os.getenv('RENDER_EXTERNAL_HOSTNAME')
+if render_hostname:
+    ALLOWED_HOSTS.append(render_hostname)
+
+allowed_hosts_env = os.getenv('DJANGO_ALLOWED_HOSTS')
+if allowed_hosts_env:
+    # Separa os domínios por vírgula, caso queira adicionar mais no futuro
+    ALLOWED_HOSTS.extend(host.strip() for host in allowed_hosts_env.split(','))
 # --- APLICAÇÕES INSTALADAS ---
 INSTALLED_APPS = [
     'django.contrib.admin',
