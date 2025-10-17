@@ -14,14 +14,16 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', 'False').lower() in ['true', '1', 't']
 
 # LÓGICA FINAL E ROBUSTA PARA ALLOWED_HOSTS
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    # Adicionamos o seu domínio do Render diretamente para garantir que funciona.
+    'portfolio-django-owv9.onrender.com',
+]
 
 # Em ambiente de desenvolvimento, permite aceder via localhost
 if DEBUG:
     ALLOWED_HOSTS.extend(['127.0.0.1', 'localhost'])
 
-# Em produção, adiciona os domínios a partir das variáveis de ambiente do Render
-# Esta abordagem é mais robusta pois tenta múltiplas fontes.
+# Em produção, adiciona os domínios a partir das variáveis de ambiente (boa prática)
 render_hostname = os.getenv('RENDER_EXTERNAL_HOSTNAME')
 if render_hostname:
     ALLOWED_HOSTS.append(render_hostname)
@@ -116,4 +118,6 @@ if not DEBUG:
     SECURE_HSTS_PRELOAD = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-# --- CONFIGURAÇÕES DE E-MAIL (EXEMPLO COM SMTP) ---
+
+    
+
