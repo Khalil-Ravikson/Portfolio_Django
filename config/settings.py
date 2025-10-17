@@ -100,12 +100,15 @@ USE_TZ = True
 
 # --- ARQUIVOS ESTÁTICOS E VITE ---
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+    BASE_DIR / 'dist',  # <--- CORREÇÃO: Permite ao collectstatic encontrar os assets do Vite.
+]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # --- CONFIGURAÇÃO DO DJANGO-VITE (CORRIGIDA PARA PRODUÇÃO) ---
-DJANGO_VITE_ASSETS_PATH = STATIC_ROOT / "dist"
+DJANGO_VITE_ASSETS_PATH = STATIC_ROOT / "dist" # O Django-Vite deve procurar o manifest.json dentro de staticfiles/dist
 DJANGO_VITE_DEV_MODE = DEBUG
 
 # --- CONFIGURAÇÕES DE SEGURANÇA ADICIONAIS PARA PRODUÇÃO ---
@@ -118,6 +121,3 @@ if not DEBUG:
     SECURE_HSTS_PRELOAD = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-    
-
