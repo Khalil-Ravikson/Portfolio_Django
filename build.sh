@@ -8,9 +8,9 @@ set -o errexit
 echo "==> Instalando dependências do frontend..."
 npm install
 
-# CORREÇÃO: Adiciona permissão de execução ao binário do Vite
+# CORREÇÃO DEFINITIVA: Adiciona permissão de execução a TODOS os binários do node_modules
 echo "==> Configurando permissões..."
-chmod +x node_modules/.bin/vite
+chmod -R +x node_modules/.bin/
 
 echo "==> Compilando o frontend com Vite..."
 npm run build
@@ -23,19 +23,19 @@ echo "==> Coletando ficheiros estáticos do Django..."
 python manage.py collectstatic --no-input --clear
 ```
 
+A única mudança foi trocar `chmod +x node_modules/.bin/vite` por `chmod -R +x node_modules/.bin/`. O `-R` (recursivo) aplica a permissão a toda a pasta de binários, resolvendo o problema para o `esbuild` e qualquer outra ferramenta que o Vite precise de usar.
+
 ### O que Fazer Agora:
 
-1.  **Substitua** o conteúdo do seu ficheiro `build.sh` local pelo código final que está no Canvas.
-2.  **Envie a alteração para o GitHub.** No seu terminal, execute os seguintes comandos:
-    ```bash
-    # Adicione a alteração ao build.sh
-    git add build.sh
-
-    # Crie um commit com uma mensagem clara
-    git commit -m "Fix: Adiciona permissão de execução explícita ao Vite"
-
-    # Envie para o GitHub
-    git push origin main
+#1.  **Copie** o conteúdo do Canvas para o seu ficheiro `build.sh` local.
+#2.  **Envie a alteração para o GitHub.** No seu terminal, execute os seguintes comandos:
+   # ```bash
+    #git add build.sh
+    #git commit -m "Fix: Aplica permissão de execução recursiva a todos os binários"
+    #git push origin main
     
 
-3.  **Verifique** se o pipeline CI/CD no GitHub Actions está a passar corretamente.
+#3.  **Teste o Script:** Execute o script localmente para garantir que tudo funciona como esperado:
+    #```bash
+    #./build.sh
+    #``` 
