@@ -1,0 +1,34 @@
+{% load static %}
+{% load vite %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Meu Portfólio{% endblock %}</title>
+    
+    <!-- O CSS será injetado aqui pelo JavaScript, por isso não precisamos de uma tag <link> em desenvolvimento -->
+
+</head>
+<body>
+    <header>
+        <!-- Seu cabeçalho aqui -->
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- O conteúdo da página será inserido aqui -->
+        <h1>Página Carregada com Django e Vite!</h1>
+        {% endblock %}
+    </main>
+    
+    <footer>
+        <!-- Seu rodapé aqui -->
+    </footer>
+
+    <!-- CORREÇÃO: Comentamos a tag do script para testar -->
+    {# {% vite_asset 'js/main.ts' %} #}
+
+</body>
+</html>
+

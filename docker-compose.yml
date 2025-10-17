@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine  # Usamos uma imagem leve e moderna do Postgres
+    container_name: portfolio_postgres
+    restart: always
+    environment:
+      # Essas variáveis criam o banco e o usuário automaticamente no primeiro boot
+      - POSTGRES_DB=portfolio_db
+      - POSTGRES_USER=portfolio_Khalil
+      - POSTGRES_PASSWORD=SaoPaulo2025
+    ports:
+      # Mapeia a porta 5432 do contêiner para a 5434 da sua máquina
+      # Usamos 5434 para não conflitar com o outro projeto que talvez já use a 5433
+      - "5434:5432"
+    volumes:
+      # Garante que os dados do banco persistam mesmo se o contêiner for recriado
+      - postgres_data:/var/lib/postgresql/data/
+
+volumes:
+  postgres_data:
