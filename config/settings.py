@@ -86,15 +86,15 @@ USE_TZ = True
 # URL base para os arquivos estáticos
 STATIC_URL = '/static/'
 # Pasta onde o Django vai procurar por arquivos estáticos
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [BASE_DIR / 'static']
 # Pasta onde o `collectstatic` vai juntar tudo para produção
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = BASE_DIR / 'staticfiles' # Onde o collectstatic coloca os ficheiros
 # Armazenamento otimizado para produção com Whitenoise
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # --- CONFIGURAÇÃO DO DJANGO-VITE ---
 # Onde o Vite vai colocar os arquivos compilados (dentro da pasta static)
-DJANGO_VITE_ASSETS_PATH = BASE_DIR / "static" / "dist"
+DJANGO_VITE_ASSETS_PATH = STATIC_ROOT / "dist"
 DJANGO_VITE_DEV_MODE = DEBUG
 
 
