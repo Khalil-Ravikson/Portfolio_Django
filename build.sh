@@ -10,6 +10,7 @@ npm install
 
 # CORREÇÃO DEFINITIVA: Adiciona permissão de execução ao binário do esbuild
 echo "==> Configurando permissões..."
+# Esta linha é útil caso o Render ou o ambiente de CI/CD tenha problemas de permissão com executáveis do node_modules
 chmod +x node_modules/@esbuild/linux-x64/bin/esbuild
 
 echo "==> Compilando o frontend com Vite..."
@@ -19,19 +20,13 @@ npm run build
 echo "==> Instalando dependências do backend..."
 pip install -r requirements.txt
 
+# ==============================================================================
+# CORREÇÃO CRÍTICA: O erro 500 no log anterior era causado pela falta desta etapa.
+# O Django precisa criar as tabelas (como core_project) no PostgreSQL.
+echo "==> Aplicando as migrações do banco de dados (CRÍTICO para o erro 500)..."
+python manage.py migrate
+# ==============================================================================
+
 echo "==> Coletando ficheiros estáticos do Django..."
 python manage.py collectstatic --no-input --clear
-### O que Fazer Agora:
-
-#1.  **Copie** o conteúdo do Canvas para o seu ficheiro `build.sh` local.
-#2.  **Envie a alteração para o GitHub.** No seu terminal, execute os seguintes comandos:
-   # ```bash
-    #git add build.sh
-    #git commit -m "Fix: Aplica permissão de execução recursiva a todos os binários"
-    #git push origin main
-    
-
-#3.  **Teste o Script:** Execute o script localmente para garantir que tudo funciona como esperado:
-    #```bash
-    #./build.sh
-    #``` 
+echo "==> Build concluído com sucesso!"
