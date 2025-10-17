@@ -1,34 +1,61 @@
 {% load static %}
 {% load vite %}
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Meu Portfólio{% endblock %}</title>
-    
-    <!-- O CSS será injetado aqui pelo JavaScript, por isso não precisamos de uma tag <link> em desenvolvimento -->
-
+    <title>{% block title %}Khalil Ravikson | Engenheiro de Computação{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <header>
-        <!-- Seu cabeçalho aqui -->
+<body class="antialiased">
+
+    <header id="header" class="glass-effect sticky top-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-xl font-bold tracking-wider text-white">KHALIL RAVIKSON</a>
+            <nav class="hidden md:flex space-x-8 items-center">
+                <a href="#home" class="hover:text-sky-400 transition-colors duration-300">Início</a>
+                <a href="#about" class="hover:text-sky-400 transition-colors duration-300">Sobre</a>
+                <a href="#technologies" class="hover:text-sky-400 transition-colors duration-300">Tecnologias</a>
+                <a href="#projects-featured" class="hover:text-sky-400 transition-colors duration-300">Projetos</a>
+                <a href="#demos" class="hover:text-sky-400 transition-colors duration-300">Demos</a>
+                <a href="#contact" class="hover:text-sky-400 transition-colors duration-300">Contato</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 space-y-2">
+            <a href="#home" class="block hover:text-sky-400 transition-colors duration-300">Início</a>
+            <a href="#about" class="block hover:text-sky-400 transition-colors duration-300">Sobre</a>
+            <a href="#technologies" class="block hover:text-sky-400 transition-colors duration-300">Tecnologias</a>
+            <a href="#projects-featured" class="block hover:text-sky-400 transition-colors duration-300">Projetos</a>
+            <a href="#demos" class="block hover:text-sky-400 transition-colors duration-300">Demos</a>
+            <a href="#contact" class="block hover:text-sky-400 transition-colors duration-300">Contato</a>
+        </div>
     </header>
 
     <main>
-        {% block content %}
-        <!-- O conteúdo da página será inserido aqui -->
-        <h1>Página Carregada com Django e Vite!</h1>
-        {% endblock %}
+        {% block content %}{% endblock %}
     </main>
-    
-    <footer>
-        <!-- Seu rodapé aqui -->
+
+    <footer class="bg-slate-900/50 border-t border-slate-800">
+        <div class="container mx-auto px-6 py-6 text-center text-slate-400">
+            <p>&copy; {% now "Y" %} Khalil Ravikson. Todos os direitos reservados.</p>
+        </div>
     </footer>
 
-    <!-- CORREÇÃO: Comentamos a tag do script para testar -->
-    {# {% vite_asset 'js/main.ts' %} #}
-
+    <div id="project-modal" class="hidden fixed inset-0 z-[100]">
+        <div id="project-modal-overlay" class="absolute inset-0 bg-black/80"></div>
+        <div class="relative w-full h-full flex items-center justify-center p-4">
+            <div id="project-modal-content" class="glass-effect rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto flex flex-col">
+                </div>
+        </div>
+    </div>
+    
+    {% vite_asset 'js/main.ts' %}
 </body>
 </html>
-

@@ -1,0 +1,33 @@
+<section id="projects-featured" class="py-20 md:py-32">
+    <div class="container mx-auto px-6">
+        <h2 class="section-title text-center mx-auto max-w-lg">Projetos em Destaque</h2>
+        <p class="text-center text-slate-300 max-w-2xl mx-auto mb-12">Uma seleção de projetos que demonstram as minhas habilidades na prática, resolvendo problemas complexos com código e dados.</p>
+        <div id="featured-projects-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            {% for project in projects %}
+            <div class="glass-effect rounded-lg overflow-hidden group flex flex-col cursor-pointer transform hover:-translate-y-2 transition-transform duration-300"
+                 data-title="{{ project.title }}"
+                 data-description="{{ project.description }}"
+                 data-technologies="{{ project.technologies }}"
+                 data-project-url="{{ project.project_url|default_if_none:'' }}"
+                 data-github-url="{{ project.github_url|default_if_none:'' }}"
+                 data-image-url="{{ project.image_url }}"
+                 data-category="{{ project.get_category_display }}">
+                
+                <img src="{{ project.image_url }}" alt="Imagem do projeto {{ project.title }}" class="w-full h-48 object-cover pointer-events-none">
+                <div class="p-6 flex flex-col flex-grow pointer-events-none">
+                    <span class="project-card-tag mb-2">{{ project.get_category_display }}</span>
+                    <h3 class="text-xl font-bold text-white mb-2">{{ project.title }}</h3>
+                    <p class="text-slate-400 mb-4 text-sm flex-grow">{{ project.description|truncatewords:15 }}</p>
+                    <div class="flex items-center space-x-4 mt-auto text-sky-400 text-sm font-semibold">
+                        <span>Ver Detalhes &rarr;</span>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="col-span-full text-center text-slate-400">Nenhum projeto em destaque. Adicione alguns na área administrativa!</p>
+            {% endfor %}
+
+        </div>
+    </div>
+</section>
