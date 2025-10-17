@@ -155,11 +155,10 @@ const canvas = document.getElementById('digit-canvas') as HTMLCanvasElement;
                 if(predictionResult) predictionResult.textContent = '-';
             };
 
-            // Função ASSÍNCRONA para chamar a nossa API Django
             const predictDigit = async () => {
                 if(predictionResult) predictionResult.textContent = '...';
 
-                // --- NOVA LÓGICA DE PRÉ-PROCESSAMENTO INTELIGENTE ---
+                // --- LÓGICA DE PRÉ-PROCESSAMENTO INTELIGENTE ---
                 
                 // 1. Encontrar a "caixa" (bounding box) que contém o desenho
                 const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -168,8 +167,9 @@ const canvas = document.getElementById('digit-canvas') as HTMLCanvasElement;
                 
                 for (let y = 0; y < canvas.height; y++) {
                     for (let x = 0; x < canvas.width; x++) {
-                        const alpha = data[(y * canvas.width + x) * 4 + 3];
-                        if (alpha > 0) { // Se o pixel não for transparente
+                        // Verificamos o canal alpha (transparência) para encontrar pixels desenhados
+                        const alpha = data[(y * canvas.width + x) * 4 + 3]; 
+                        if (alpha > 0) { // Se o pixel não for transparente (foi desenhado)
                             minX = Math.min(minX, x);
                             minY = Math.min(minY, y);
                             maxX = Math.max(maxX, x);
@@ -178,34 +178,45 @@ const canvas = document.getElementById('digit-canvas') as HTMLCanvasElement;
                     }
                 }
 
-                if (maxX === 0) { // Se o canvas estiver vazio
+                // Se maxX for 0, significa que nada foi desenhado (canvas está vazio)
+                if (maxX === 0) { 
                     if(predictionResult) predictionResult.textContent = '-';
-                    return;
+                    return; // Não faz nada se o canvas estiver vazio
                 }
 
-                // 2. Criar um novo canvas temporário para centralizar a imagem
+                // 2. Calcular as dimensões do desenho e criar um canvas temporário
                 const digitWidth = maxX - minX;
                 const digitHeight = maxY - minY;
                 const largerSide = Math.max(digitWidth, digitHeight);
-                const padding = 40; // Espaçamento extra para o dígito "respirar"
+                // Adicionamos um 'padding' para garantir que o dígito não toque as bordas
+                // O padding deve ser proporcional à espessura da linha para melhores resultados
+                const padding = ctx.lineWidth; // Usar a espessura da linha como padding
                 
                 const tempCanvas = document.createElement('canvas');
+                // O tamanho do canvas temporário é o lado maior do dígito + padding em ambos os lados
                 tempCanvas.width = largerSide + padding * 2;
                 tempCanvas.height = largerSide + padding * 2;
                 const tempCtx = tempCanvas.getContext('2d')!;
 
-                // 3. Desenhar a imagem recortada e centralizada no novo canvas
+                // 3. Desenhar a imagem recortada e CENTRALIZADA no novo canvas temporário
+                // O fundo do canvas temporário é preto, igual ao treino
+                tempCtx.fillStyle = "black";
+                tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+                
                 tempCtx.drawImage(
                     canvas, 
-                    minX, minY, digitWidth, digitHeight, // Recorta o dígito do canvas original
-                    (largerSide - digitWidth) / 2 + padding, (largerSide - digitHeight) / 2 + padding, // Centraliza no novo canvas
-                    digitWidth, digitHeight
+                    minX, minY,                 // Coordenadas e tamanho do recorte no canvas original
+                    digitWidth, digitHeight,    
+                    (tempCanvas.width - digitWidth) / 2, // Coordenada X para centralizar no canvas temp
+                    (tempCanvas.height - digitHeight) / 2, // Coordenada Y para centralizar no canvas temp
+                    digitWidth, digitHeight     // Tamanho do desenho no canvas temp
                 );
 
-                // 4. Obter a imagem do *novo* canvas temporário
+                // 4. Obter a imagem do *novo* canvas temporário como Base64
+                // Esta é a imagem que será enviada para o Django
                 const imageDataUrl = tempCanvas.toDataURL('image/png');
 
-                // --- FIM DA NOVA LÓGICA ---
+                // --- FIM DA LÓGICA DE PRÉ-PROCESSAMENTO ---
 
 
                 try {
