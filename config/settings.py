@@ -98,17 +98,22 @@ TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
 USE_TZ = True
 
-# --- ARQUIVOS ESTÁTICOS E VITE ---
+# --- ARQUIVOS ESTÁTICOS E VITE (CORRIGIDOS) ---
+# Define o diretório de saída REAL do Vite
+VITE_OUTPUT_DIR = BASE_DIR / 'static' / 'dist' 
+
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
-    BASE_DIR / 'dist',  # <--- CORREÇÃO: Permite ao collectstatic encontrar os assets do Vite.
+    VITE_OUTPUT_DIR, # <--- CORREÇÃO: Adiciona a pasta de saída real do Vite
 ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# --- CONFIGURAÇÃO DO DJANGO-VITE (CORRIGIDA PARA PRODUÇÃO) ---
-DJANGO_VITE_ASSETS_PATH = STATIC_ROOT / "dist" # O Django-Vite deve procurar o manifest.json dentro de staticfiles/dist
+# --- CONFIGURAÇÃO DO DJANGO-VITE ---
+# DJANGO_VITE_ASSETS_PATH deve apontar para onde o manifest.json foi copiado.
+# Como o conteúdo de VITE_OUTPUT_DIR é copiado para STATIC_ROOT, o manifest estará lá.
+DJANGO_VITE_ASSETS_PATH = STATIC_ROOT 
 DJANGO_VITE_DEV_MODE = DEBUG
 
 # --- CONFIGURAÇÕES DE SEGURANÇA ADICIONAIS PARA PRODUÇÃO ---
