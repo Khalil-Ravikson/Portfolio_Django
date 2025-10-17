@@ -8,9 +8,9 @@ set -o errexit
 echo "==> Instalando dependências do frontend..."
 npm install
 
-# CORREÇÃO DEFINITIVA: Adiciona permissão de execução a TODOS os binários do node_modules
+# CORREÇÃO DEFINITIVA: Adiciona permissão de execução ao binário do esbuild
 echo "==> Configurando permissões..."
-chmod -R +x node_modules/.bin/
+chmod +x node_modules/@esbuild/linux-x64/bin/esbuild
 
 echo "==> Compilando o frontend com Vite..."
 npm run build
@@ -21,10 +21,6 @@ pip install -r requirements.txt
 
 echo "==> Coletando ficheiros estáticos do Django..."
 python manage.py collectstatic --no-input --clear
-```
-
-A única mudança foi trocar `chmod +x node_modules/.bin/vite` por `chmod -R +x node_modules/.bin/`. O `-R` (recursivo) aplica a permissão a toda a pasta de binários, resolvendo o problema para o `esbuild` e qualquer outra ferramenta que o Vite precise de usar.
-
 ### O que Fazer Agora:
 
 #1.  **Copie** o conteúdo do Canvas para o seu ficheiro `build.sh` local.
