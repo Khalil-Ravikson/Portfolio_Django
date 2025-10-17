@@ -3,23 +3,24 @@ from pathlib import Path
 import dj_database_url
 from dotenv import load_dotenv
 
+# Carrega as variáveis de ambiente do ficheiro .env (apenas em desenvolvimento)
 load_dotenv()
 
+# Define o diretório base do projeto
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # --- CONFIGURAÇÃO DE SEGURANÇA ---
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', 'False').lower() in ['true', '1', 't']
 
-# CORREÇÃO DEFINITIVA PARA ALLOWED_HOSTS
+# LÓGICA FINAL E ROBUSTA PARA ALLOWED_HOSTS
 ALLOWED_HOSTS = []
 
 # Em ambiente de desenvolvimento, permite aceder via localhost
 if DEBUG:
-    ALLOWED_HOSTS.append('127.0.0.1')
-    ALLOWED_HOSTS.append('localhost')
+    ALLOWED_HOSTS.extend(['127.0.0.1', 'localhost'])
 
-# Em produção, adiciona os domínios a partir das variáveis de ambiente
+# Em produção, adiciona os domínios a partir das variáveis de ambiente do Render
 # Esta abordagem é mais robusta pois tenta múltiplas fontes.
 render_hostname = os.getenv('RENDER_EXTERNAL_HOSTNAME')
 if render_hostname:
@@ -29,6 +30,7 @@ allowed_hosts_env = os.getenv('DJANGO_ALLOWED_HOSTS')
 if allowed_hosts_env:
     # Separa os domínios por vírgula, caso queira adicionar mais no futuro
     ALLOWED_HOSTS.extend(host.strip() for host in allowed_hosts_env.split(','))
+
 # --- APLICAÇÕES INSTALADAS ---
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -36,15 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'whitenoise.runserver_nostatic',
+    'whitenoise.runserver_nostatic', # Para servir ficheiros estáticos em dev
     'django.contrib.staticfiles',
     'core',
-    'django_vite', # Adicionamos a app do Vite
+    'django_vite',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', # Para servir ficheiros estáticos em produção
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -95,21 +97,14 @@ USE_I18N = True
 USE_TZ = True
 
 # --- ARQUIVOS ESTÁTICOS E VITE ---
-
-# URL base para os arquivos estáticos
 STATIC_URL = '/static/'
-# Pasta onde o Django vai procurar por arquivos estáticos
 STATICFILES_DIRS = [BASE_DIR / 'static']
-# Pasta onde o `collectstatic` vai juntar tudo para produção
-STATIC_ROOT = BASE_DIR / 'staticfiles' # Onde o collectstatic coloca os ficheiros
-# Armazenamento otimizado para produção com Whitenoise
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# --- CONFIGURAÇÃO DO DJANGO-VITE ---
-# Onde o Vite vai colocar os arquivos compilados (dentro da pasta static)
+# --- CONFIGURAÇÃO DO DJANGO-VITE (CORRIGIDA PARA PRODUÇÃO) ---
 DJANGO_VITE_ASSETS_PATH = STATIC_ROOT / "dist"
 DJANGO_VITE_DEV_MODE = DEBUG
-
 
 # --- CONFIGURAÇÕES DE SEGURANÇA ADICIONAIS PARA PRODUÇÃO ---
 if not DEBUG:
@@ -120,6 +115,5 @@ if not DEBUG:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
 
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
+# --- CONFIGURAÇÕES DE E-MAIL (EXEMPLO COM SMTP) ---
