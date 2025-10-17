@@ -30,3 +30,8 @@ python manage.py migrate
 echo "==> Coletando ficheiros estáticos do Django..."
 python manage.py collectstatic --no-input --clear
 echo "==> Build concluído com sucesso!"
+
+# --- PASSO DE DEBUG: Verificar onde o manifest.json foi parar ---
+echo "==> VERIFICANDO ESTRUTURA DE FICHEIROS ESTÁTICOS (DEBUG) <=="
+ls -R /opt/render/project/src/staticfiles/
+echo "==========================================================
