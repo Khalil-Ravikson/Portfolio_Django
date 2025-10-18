@@ -7,6 +7,7 @@
             <p class="text-slate-400 mb-6">Desenhe um número de 0 a 9 no quadro abaixo. Uma rede neural convolucional tentará adivinhar o que você escreveu.</p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
                 <div>
+                    <!-- A largura e altura do canvas são cruciais para o pré-processamento no main.js -->
                     <canvas id="digit-canvas" width="280" height="280" class="bg-white rounded-md cursor-crosshair mx-auto"></canvas>
                     <div class="flex justify-center space-x-4 mt-4">
                         <button id="predict-btn" class="btn-primary font-semibold py-2 px-6 rounded-lg">Prever</button>
