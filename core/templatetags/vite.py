@@ -9,7 +9,7 @@ register = template.Library()
 # CORREÇÃO FINAL: Voltamos a incluir 'dist' no caminho de procura.
 # O log de erro do Django-Vite e o log de debug do ls -R indicam que o manifest.json
 # deve ser procurado dentro da subpasta 'dist' que foi copiada para STATIC_ROOT.
-VITE_MANIFEST_PATH = settings.STATIC_ROOT / "dist" / "manifest.json" 
+VITE_MANIFEST_PATH = settings.STATIC_ROOT / "manifest.json" 
 
 @register.simple_tag
 def vite_asset(path: str, asset_type: str = "script"):

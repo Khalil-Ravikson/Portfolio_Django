@@ -99,10 +99,14 @@ USE_I18N = True
 USE_TZ = True
 
 # --- ARQUIVOS ESTÁTICOS E VITE (CORRIGIDOS) ---
-# Define o diretório de saída REAL do Vite
-VITE_OUTPUT_DIR = BASE_DIR / 'static' / 'dist' 
+
+
 
 STATIC_URL = '/static/'
+# Define o diretório de saída REAL do Vite
+VITE_OUTPUT_DIR = BASE_DIR / 'static' / 'dist'
+
+
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
     VITE_OUTPUT_DIR, # <--- CORREÇÃO: Adiciona a pasta de saída real do Vite

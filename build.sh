@@ -34,4 +34,4 @@ echo "==> Build concluído com sucesso!"
 # --- PASSO DE DEBUG: Verificar onde o manifest.json foi parar ---
 echo "==> VERIFICANDO ESTRUTURA DE FICHEIROS ESTÁTICOS (DEBUG) <=="
 ls -R /opt/render/project/src/staticfiles/
-echo "==========================================================
+echo "=========================================================="
