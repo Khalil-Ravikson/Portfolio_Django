@@ -8,7 +8,7 @@ register = template.Library()
 
 # 1. O CAMINHO DE PROCURA: Definimos o caminho onde o manifest.json deve estar após o collectstatic.
 # Deve ser na raiz da pasta estática de produção.
-VITE_MANIFEST_PATH = settings.STATIC_ROOT / "manifest.json" 
+VITE_MANIFEST_PATH = settings.STATIC_ROOT / "dist" / "manifest.json"
 
 @register.simple_tag
 def vite_asset(path: str, asset_type: str = "script"):

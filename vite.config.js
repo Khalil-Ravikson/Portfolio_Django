@@ -1,26 +1,17 @@
-import { defineConfig } from 'vite';
-import { resolve } from 'path';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import { resolve } from 'path'
 
 export default defineConfig({
-  // Pasta raiz do frontend
-  root: 'static',
-
+  plugins: [react()],
+  root: 'static',            // raiz dos arquivos frontend
+  base: '/static/',
   build: {
-    // Saída: vai gerar JS/CSS dentro de "static/dist"
-    outDir: './dist',
+    outDir: '../staticfiles/dist', // saída relativa à root
     emptyOutDir: true,
-
-    // 🔧 Gera o manifest.json um nível acima (em static/)
-    manifest: '../manifest.json',
-
+    manifest: true,
     rollupOptions: {
-      // Ponto de entrada principal (ajuste se seu arquivo for outro)
-      input: resolve(__dirname, 'static/js/main.ts'),
+      input: resolve(__dirname, 'static/js/main.ts'), // seu entrypoint
     },
   },
-
-  server: {
-    port: 5173,
-    cors: true,
-  },
-});
+})

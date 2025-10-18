@@ -104,7 +104,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 # Define o diretório de saída REAL do Vite
-VITE_OUTPUT_DIR = BASE_DIR / 'static' / 'dist'
+VITE_OUTPUT_DIR = BASE_DIR / 'static' / 'dist' / '.vite'
 
 
 STATICFILES_DIRS = [
