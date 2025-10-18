@@ -1,8 +1,18 @@
-/venv/
-/env/
-.env
-*.sqlite3
-db.sqlite3
+# Python
+venv/
+env/
 __pycache__/
 *.pyc
+*.sqlite3
+db.sqlite3
+
+# Django / Vite
 /staticfiles/
+*.pem       # NÃO faça commit de chaves privadas (cert.key)
+*.crt       # arquivos .crt podem ir, mas cuidado se contiver dados sensíveis
+
+# Variáveis de ambiente
+.env
+
+# Node
+node_modules/

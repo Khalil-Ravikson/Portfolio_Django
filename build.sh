@@ -8,34 +8,31 @@ set -o errexit
 echo "==> Instalando dependências do frontend..."
 npm install
 
-# CORREÇÃO DEFINITIVA: Adiciona permissão de execução ao binário do esbuild
+# Adiciona permissão de execução aos binários do Node, evitando erros de permission denied
 echo "==> Configurando permissões..."
-# Esta linha é útil caso o Render ou o ambiente de CI/CD tenha problemas de permissão com executáveis do node_modules
 chmod +x node_modules/@esbuild/linux-x64/bin/esbuild
+chmod +x node_modules/.bin/vite
 
 echo "==> Compilando o frontend com Vite..."
-npm run build
+npx vite build
 
 # --- Backend Setup ---
 echo "==> Instalando dependências do backend..."
 pip install -r requirements.txt
 
-# ==============================================================================
-# CORREÇÃO CRÍTICA: O erro 500 no log anterior era causado pela falta desta etapa.
-# O Django precisa criar as tabelas (como core_project) no PostgreSQL.
-echo "==> Aplicando as migrações do banco de dados (CRÍTICO para o erro 500)..."
+# Migrações do Django (CRÍTICO)
+echo "==> Aplicando as migrações do banco de dados..."
 python manage.py migrate
-# ==============================================================================
 
-echo "==> Coletando ficheiros estáticos do Django..."
+# Coleta de arquivos estáticos
+echo "==> Coletando arquivos estáticos do Django..."
 python manage.py collectstatic --no-input --clear
-echo "==> Build concluído com sucesso!"
 
-# --- PASSO DE DEBUG: Verificar onde o manifest.json foi parar ---
+# --- DEBUG: Verificar manifest.json ---
 echo "==> VERIFICANDO ESTRUTURA DE FICHEIROS ESTÁTICOS (DEBUG) <=="
 ls -R /opt/render/project/src/staticfiles/
 echo "=========================================================="
-
 echo "==> DEBUG: verificando onde o manifest.json foi parar..."
 find /opt/render/project/src/staticfiles -name manifest.json
+
 echo "==> Build concluído com sucesso!"
