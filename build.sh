@@ -35,3 +35,7 @@ echo "==> Build concluído com sucesso!"
 echo "==> VERIFICANDO ESTRUTURA DE FICHEIROS ESTÁTICOS (DEBUG) <=="
 ls -R /opt/render/project/src/staticfiles/
 echo "=========================================================="
+
+echo "==> DEBUG: verificando onde o manifest.json foi parar..."
+find /opt/render/project/src/staticfiles -name manifest.json
+echo "==> Build concluído com sucesso!"

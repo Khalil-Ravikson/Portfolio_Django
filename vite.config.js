@@ -1,27 +1,26 @@
 import { defineConfig } from 'vite';
+import { resolve } from 'path';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  // Define a raiz do projeto frontend como a pasta 'static'
+  // Pasta raiz do frontend
   root: 'static',
 
   build: {
-    // Onde os arquivos compilados serão salvos (dentro da pasta static)
+    // Saída: vai gerar JS/CSS dentro de "static/dist"
     outDir: './dist',
-    // Limpa a pasta 'dist' antes de cada build para evitar arquivos antigos
     emptyOutDir: true,
-    // Gera um 'manifest.json' que mapeia os nomes dos arquivos originais para os compilados
-    manifest: true,
+
+    // 🔧 Gera o manifest.json um nível acima (em static/)
+    manifest: '../manifest.json',
+
     rollupOptions: {
-      // Define qual arquivo TypeScript é o ponto de entrada principal
-      input: '/js/main.ts',
+      // Ponto de entrada principal (ajuste se seu arquivo for outro)
+      input: resolve(__dirname, 'static/js/main.ts'),
     },
   },
 
   server: {
-    // Porta padrão do servidor de desenvolvimento do Vite
     port: 5173,
-    // Habilita CORS para que o servidor do Django (na porta 8000) possa acessar este
     cors: true,
   },
 });
