@@ -1,5 +1,4 @@
 {% load static %}
-{% load vite %}
 <!DOCTYPE html>
 <html lang="pt-BR" class="scroll-smooth">
 <head>
@@ -56,6 +55,6 @@
         </div>
     </div>
     
-    {% vite_asset 'js/main.ts' %}
+    <script src="{% static 'js/main.js' %}" type="text/javascript"></script>
 </body>
 </html>

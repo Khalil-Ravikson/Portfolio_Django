@@ -1,34 +1,34 @@
-// Importa o nosso ficheiro de estilos para que o Vite o processe
-// Importa o nosso ficheiro de estilos para que o Vite o processe
-import '../css/styles.css';
+// O CSS é carregado diretamente via tag <link> no template HTML (base.html)
 
 document.addEventListener('DOMContentLoaded', function() {
     
     // --- LÓGICA DO MENU MOBILE ---
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
-    mobileMenuButton?.addEventListener('click', () => {
-        mobileMenu?.classList.toggle('hidden');
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
     });
 
 
     // --- DADOS E LÓGICA DAS TECNOLOGIAS (ATUALIZADO) ---
+    // NOTA: É recomendado usar Font Awesome ou ícones Lucide para ícones reais, 
+    // mas mantive a estrutura SVG que você forneceu.
     const technologies = [
         // Destaques
-        { name: 'Python', icon: '<svg class="tech-icon" ...></svg>' }, // Ícone SVG aqui
-        { name: 'TensorFlow', icon: '<svg class="tech-icon" ...></svg>' }, // Ícone SVG aqui
-        { name: 'Django', icon: '<svg class="tech-icon" ...></svg>' }, // Ícone SVG aqui
-        { name: 'Docker', icon: '<svg class="tech-icon" ...></svg>' }, // Ícone SVG aqui
+        { name: 'Python', icon: '<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-2.29 14.71a.75.75 0 01-1.06-1.06L11.88 12 8.65 8.77a.75.75 0 011.06-1.06L13 10.88l3.23-3.17a.75.75 0 111.06 1.06L14.12 12l3.23 3.17a.75.75 0 01-1.06 1.06L13 13.12l-3.29 3.59z"/></svg>' }, 
+        { name: 'TensorFlow', icon: '<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 002 12a10 10 0 0010 10 10 10 0 0010-10A10 10 0 0012 2zm-1 16H8a1 1 0 01-1-1v-4a1 1 0 011-1h3v6zm5-10h-3V6h3a1 1 0 011 1v4a1 1 0 01-1 1z"/></svg>' }, 
+        { name: 'Django', icon: '<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-2 16h4V6h-4v12z"/></svg>' }, 
+        { name: 'Docker', icon: '<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 002 12a10 10 0 0010 10 10 10 0 0010-10A10 10 0 0012 2zm3 15h-6v-2h6v2zm-6-4h6v-2h-6v2zm6-4H9V7h6v2z"/></svg>' }, 
         { name: 'AutoCAD', icon: '<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zm0 11.5L4.5 10.25l7.5-3.75 7.5 3.75L12 13.5zM2 17l10 5 10-5-10-5-10 5z"/></svg>' },
         { name: 'Excel', icon: '<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M21.17 3.25a2 2 0 00-2-2H4.83a2 2 0 00-2 2v17.5a2 2 0 002 2h14.34a2 2 0 002-2V3.25zm-14.9 15.5l3.54-3.54-3.54-3.54h2.83l2.12 2.12 2.12-2.12h2.83l-3.54 3.54 3.54 3.54h-2.83l-2.12-2.12-2.12 2.12H6.27z"/></svg>' },
         { name: 'n8n', icon: '<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-2.29 14.71a.75.75 0 01-1.06-1.06L11.88 12 8.65 8.77a.75.75 0 011.06-1.06L13 10.88l3.23-3.17a.75.75 0 111.06 1.06L14.12 12l3.23 3.17a.75.75 0 01-1.06 1.06L13 13.12l-3.29 3.59z"/></svg>' },
-        { name: 'JavaScript', icon: '<svg class="tech-icon" ...></svg>' }, // Ícone SVG aqui
+        { name: 'JavaScript', icon: '<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm3 15h-2.5v-2h-1.5v2H9v-6h6v6z"/></svg>' }, 
 
         // Outras Tecnologias
-        { name: 'PyTorch', icon: '<svg class="tech-icon" ...></svg>' }, // Ícone SVG aqui
-        { name: 'Scikit-learn', icon: '<svg class="tech-icon" ...></svg>' }, // Ícone SVG aqui
-        { name: 'Git', icon: '<svg class="tech-icon" ...></svg>' }, // Ícone SVG aqui
-        { name: 'SQL', icon: '<svg class="tech-icon" ...></svg>' }, // Ícone SVG aqui
+        { name: 'PyTorch', icon: '<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16z"/></svg>' }, 
+        { name: 'Scikit-learn', icon: '<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16z"/></svg>' }, 
+        { name: 'Git', icon: '<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-4h2v4zm0-6h-2V7h2v4z"/></svg>' }, 
+        { name: 'SQL', icon: '<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-2 16h4v-2h-4v2zm0-4h4v-2h-4v2zm0-4h4V6h-4v2z"/></svg>' }, 
     ];
 
     function renderTechnologies() {
@@ -46,16 +46,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // --- LÓGICA DO MODAL DE PROJETOS ---
-    const modal = document.getElementById('project-modal') as HTMLElement;
+    const modal = document.getElementById('project-modal');
     const modalOverlay = document.getElementById('project-modal-overlay');
     const modalContent = document.getElementById('project-modal-content');
     const projectCards = document.querySelectorAll('[data-title]');
 
-    function openModal(projectData: any) {
+    function openModal(projectData) {
         if (!modalContent) return;
 
         const technologiesHtml = projectData.technologies.split(',')
-            .map((tech: string) => `<span class="project-card-tag">${tech.trim()}</span>`).join('');
+            .map(tech => `<span class="project-card-tag">${tech.trim()}</span>`).join('');
 
         modalContent.innerHTML = `
             <div class="p-4 border-b border-slate-700 flex justify-between items-center sticky top-0 z-10 glass-effect">
@@ -85,10 +85,10 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         `;
 
+        document.getElementById('modal-close-btn').addEventListener('click', closeModal);
         document.body.classList.add('modal-open');
         modal.classList.remove('hidden');
 
-        document.getElementById('modal-close-btn')?.addEventListener('click', closeModal);
     }
 
     function closeModal() {
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     projectCards.forEach(card => {
         card.addEventListener('click', () => {
-            const cardElement = card as HTMLElement;
+            const cardElement = card;
             const projectData = {
                 title: cardElement.dataset.title,
                 description: cardElement.dataset.description,
@@ -112,11 +112,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    modalOverlay?.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', closeModal);
     
-const canvas = document.getElementById('digit-canvas') as HTMLCanvasElement;
+    const canvas = document.getElementById('digit-canvas');
     if (canvas) {
-        const ctx = canvas.getContext('2d', { willReadFrequently: true }); // willReadFrequently melhora a performance
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
         const predictBtn = document.getElementById('predict-btn');
         const clearBtn = document.getElementById('clear-btn');
         const predictionResult = document.getElementById('prediction-result');
@@ -127,10 +127,10 @@ const canvas = document.getElementById('digit-canvas') as HTMLCanvasElement;
             ctx.fillStyle = "black";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            const startDrawing = (e: MouseEvent | TouchEvent) => { drawing = true; draw(e); };
+            const startDrawing = (e) => { drawing = true; draw(e); };
             const stopDrawing = () => { drawing = false; ctx.beginPath(); };
             
-            const draw = (e: MouseEvent | TouchEvent) => {
+            const draw = (e) => {
                 if (!drawing) return;
                 e.preventDefault(); 
                 
@@ -196,7 +196,7 @@ const canvas = document.getElementById('digit-canvas') as HTMLCanvasElement;
                 // O tamanho do canvas temporário é o lado maior do dígito + padding em ambos os lados
                 tempCanvas.width = largerSide + padding * 2;
                 tempCanvas.height = largerSide + padding * 2;
-                const tempCtx = tempCanvas.getContext('2d')!;
+                const tempCtx = tempCanvas.getContext('2d');
 
                 // 3. Desenhar a imagem recortada e CENTRALIZADA no novo canvas temporário
                 // O fundo do canvas temporário é preto, igual ao treino
@@ -254,8 +254,8 @@ const canvas = document.getElementById('digit-canvas') as HTMLCanvasElement;
             canvas.addEventListener('touchstart', startDrawing, { passive: false });
             canvas.addEventListener('touchend', stopDrawing);
             canvas.addEventListener('touchmove', draw, { passive: false });
-            predictBtn?.addEventListener('click', predictDigit);
-            clearBtn?.addEventListener('click', clearCanvas);
+            predictBtn.addEventListener('click', predictDigit);
+            clearBtn.addEventListener('click', clearCanvas);
         }
     }
 });

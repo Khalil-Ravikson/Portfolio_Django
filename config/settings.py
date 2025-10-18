@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic', # Para servir ficheiros estáticos em dev
     'django.contrib.staticfiles',
     'core',
-    'django_vite',
+    # 'django_vite',  <--- REMOVIDO: Não é mais necessário
     'django_extensions',
 ]
 
@@ -100,26 +100,19 @@ TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
 USE_TZ = True
 
-## --- ARQUIVOS ESTÁTICOS E VITE ---
+## --- ARQUIVOS ESTÁTICOS (SIMPLIFICADO) ---
 STATIC_URL = '/static/'
 
-# Diretório de saída do Vite
-VITE_OUTPUT_DIR = BASE_DIR / 'static' / 'dist' / '.vite'
-
+# Apenas aponta para a pasta de arquivos estáticos de origem
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
-    VITE_OUTPUT_DIR,
 ]
+# STATIC_ROOT é onde os arquivos finais serão copiados em produção
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# DJANGO-VITE
-if DEBUG:
-    DJANGO_VITE_DEV_MODE = True
-    DJANGO_VITE_ASSETS_PATH = None  # pega do servidor dev
-else:
-    DJANGO_VITE_DEV_MODE = False
-    DJANGO_VITE_ASSETS_PATH = VITE_OUTPUT_DIR / 'manifest.json'
+# REMOVIDAS todas as configurações relacionadas ao VITE:
+# VITE_OUTPUT_DIR, DJANGO_VITE_ASSETS_PATH, DJANGO_VITE_DEV_MODE
 
 # --- CONFIGURAÇÕES DE SEGURANÇA ADICIONAIS PARA PRODUÇÃO ---
 if not DEBUG:

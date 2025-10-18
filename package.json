@@ -5,19 +5,12 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build"
+    "start": "echo 'Frontend build not required. Use python manage.py runserver'",
+    "build": "echo 'Build not required'"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  },
-  "devDependencies": {
-    "vite": "^5.4.20",
-    "@vitejs/plugin-react": "^5.0.4",
-    "typescript": "^5.3.3"
-  }
+  "dependencies": {},
+  "devDependencies": {}
 }

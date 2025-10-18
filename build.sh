@@ -1,38 +1,23 @@
 #!/usr/bin/env bash
 # Este script garante que o build funcione em ambientes CI/CD
+# Configurado para usar APENAS Python/Django e Static Files (SEM VITE)
 
 # Sai imediatamente se um comando falhar
 set -o errexit
-
-# --- Frontend Build ---
-echo "==> Instalando dependências do frontend..."
-npm install
-
-# Adiciona permissão de execução aos binários do Node, evitando erros de permission denied
-echo "==> Configurando permissões..."
-chmod +x node_modules/@esbuild/linux-x64/bin/esbuild
-chmod +x node_modules/.bin/vite
-
-echo "==> Compilando o frontend com Vite..."
-npx vite build
 
 # --- Backend Setup ---
 echo "==> Instalando dependências do backend..."
 pip install -r requirements.txt
 
-# Migrações do Django (CRÍTICO)
+# ==============================================================================
+# Migrações do Django (CRÍTICO para garantir que o banco de dados esteja pronto)
 echo "==> Aplicando as migrações do banco de dados..."
 python manage.py migrate
+# ==============================================================================
 
 # Coleta de arquivos estáticos
-echo "==> Coletando arquivos estáticos do Django..."
+echo "==> Coletando arquivos estáticos do Django (JS/CSS Puro)..."
+# O Django agora copiará apenas o que estiver em STATICFILES_DIRS (provavelmente BASE_DIR / 'static')
 python manage.py collectstatic --no-input --clear
 
-# --- DEBUG: Verificar manifest.json ---
-echo "==> VERIFICANDO ESTRUTURA DE FICHEIROS ESTÁTICOS (DEBUG) <=="
-ls -R /opt/render/project/src/staticfiles/
-echo "=========================================================="
-echo "==> DEBUG: verificando onde o manifest.json foi parar..."
-find /opt/render/project/src/staticfiles -name manifest.json
-
-echo "==> Build concluído com sucesso!"
+echo "==> Build concluído com sucesso! (Frontend simplificado para JS puro)"
