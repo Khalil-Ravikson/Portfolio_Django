@@ -15,6 +15,7 @@ DEBUG = os.getenv('DEBUG', 'False').lower() in ['true', '1', 't']
 
 # LÓGICA FINAL E ROBUSTA PARA ALLOWED_HOSTS
 ALLOWED_HOSTS = [
+
     # Adicionamos o seu domínio do Render diretamente para garantir que funciona.
     'portfolio-django-owv9.onrender.com',
 ]
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'django_vite',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -98,27 +100,26 @@ TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
 USE_TZ = True
 
-# --- ARQUIVOS ESTÁTICOS E VITE (CORRIGIDOS) ---
-
-
-
+## --- ARQUIVOS ESTÁTICOS E VITE ---
 STATIC_URL = '/static/'
-# Define o diretório de saída REAL do Vite
-VITE_OUTPUT_DIR = BASE_DIR / 'static' / 'dist' / '.vite'
 
+# Diretório de saída do Vite
+VITE_OUTPUT_DIR = BASE_DIR / 'static' / 'dist' / '.vite'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
-    VITE_OUTPUT_DIR, # <--- CORREÇÃO: Adiciona a pasta de saída real do Vite
+    VITE_OUTPUT_DIR,
 ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# --- CONFIGURAÇÃO DO DJANGO-VITE ---
-# DJANGO_VITE_ASSETS_PATH deve apontar para onde o manifest.json foi copiado.
-# Como o conteúdo de VITE_OUTPUT_DIR é copiado para STATIC_ROOT, o manifest estará lá.
-DJANGO_VITE_ASSETS_PATH = STATIC_ROOT 
-DJANGO_VITE_DEV_MODE = DEBUG
+# DJANGO-VITE
+if DEBUG:
+    DJANGO_VITE_DEV_MODE = True
+    DJANGO_VITE_ASSETS_PATH = None  # pega do servidor dev
+else:
+    DJANGO_VITE_DEV_MODE = False
+    DJANGO_VITE_ASSETS_PATH = VITE_OUTPUT_DIR / 'manifest.json'
 
 # --- CONFIGURAÇÕES DE SEGURANÇA ADICIONAIS PARA PRODUÇÃO ---
 if not DEBUG:
@@ -128,5 +129,12 @@ if not DEBUG:
     SECURE_HSTS_SECONDS = 31536000 # 1 ano
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
-
+else:
+    SECURE_SSL_REDIRECT = False
+    SECURE_HSTS_SECONDS = 0
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+    SECURE_HSTS_PRELOAD = False
+    
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
