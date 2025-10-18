@@ -6,17 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Khalil Ravikson | Engenheiro de Computação{% endblock %}</title>
 
-    <!-- 1. TAILWIND CSS VIA CDN (Link é mais estável que o Script em produção) -->
+    <!-- 1. TAILWIND CSS VIA CDN (Garante que o layout carrega primeiro) -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.4/dist/tailwind.min.css" rel="stylesheet">
     
-    <!-- 2. SEU CSS PERSONALIZADO (Deve vir depois para sobrescrever estilos) -->
+    <!-- 2. CSS PERSONALIZADO (Seus estilos sobrepõem o Tailwind, se houver) -->
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-
+    
+    <!-- 3. FONTES -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="antialiased">
+<body class="antialiased text-white bg-slate-950">
 
     <header id="header" class="glass-effect sticky top-0 z-50 transition-all duration-300">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
@@ -61,7 +62,6 @@
         </div>
     </div>
     
-    <!-- 3. SEU JAVASCRIPT PURO -->
     <script src="{% static 'js/main.js' %}" type="text/javascript"></script>
 </body>
 </html>
