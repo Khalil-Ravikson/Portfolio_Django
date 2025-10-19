@@ -8,10 +8,11 @@
 
     <!-- 1. TAILWIND CSS VIA CDN (REVERTIDO PARA <script> para garantir a injeção correta de classes de layout) -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <!-- 2. CSS PERSONALIZADO (Seus estilos sobrepõem o Tailwind, se houver) -->
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- 3. FONTES -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -68,4 +69,4 @@
 </html>
 ```
 
-Faça o *commit* e o *push* desta versão. Deve resolver o problema de *layout* quebrado.
+

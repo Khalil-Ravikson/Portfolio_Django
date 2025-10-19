@@ -1,0 +1,26 @@
+<div x-data="oeeChart({{ dados_json|safe }})" x-init="renderChart()">
+    <h4 class="text-2xl font-bold text-white mb-4">Resultado da Análise:</h4>
+    
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center mb-6">
+        <div class="glass-effect-light p-4 rounded-lg">
+            <span class="text-sm text-slate-400">Disponibilidade</span>
+            <span class="block text-2xl font-bold text-white" x-text="availability + '%'"></span>
+        </div>
+        <div class="glass-effect-light p-4 rounded-lg">
+            <span class="text-sm text-slate-400">Performance</span>
+            <span class="block text-2xl font-bold text-white" x-text="performance + '%'"></span>
+        </div>
+        <div class="glass-effect-light p-4 rounded-lg">
+            <span class="text-sm text-slate-400">Qualidade</span>
+            <span class="block text-2xl font-bold text-white" x-text="quality + '%'"></span>
+        </div>
+        <div class="bg-indigo-600 p-4 rounded-lg">
+            <span class="text-sm text-indigo-100">OEE Total</span>
+            <span class="block text-2xl font-bold text-white" x-text="oee + '%'"></span>
+        </div>
+    </div>
+
+    <div class="w-full max-w-lg mx-auto">
+        <canvas id="oee-chart-canvas"></canvas>
+    </div>
+</div>

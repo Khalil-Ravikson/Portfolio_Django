@@ -1,0 +1,57 @@
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+    <div class="glass-effect-light p-6 rounded-lg border-l-4 {{ caminhao.borda_status }}">
+        <h4 class="text-lg font-bold text-white mb-3">Caminhão #793</h4>
+        <div class="space-y-2 text-sm">
+            <div class="flex justify-between">
+                <span class="text-slate-400">Status:</span>
+                <span class="font-bold {{ caminhao.cor_status }}">{{ caminhao.status }}</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-slate-400">Temperatura Óleo:</span>
+                <span class="text-white">{{ caminhao.temp_oleo }}°C</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-slate-400">Carga Atual:</span>
+                <span class="text-white">{{ caminhao.carga }} ton</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="glass-effect-light p-6 rounded-lg border-l-4 {{ britador.borda_status }}">
+        <h4 class="text-lg font-bold text-white mb-3">Britador Primário #01</h4>
+        <div class="space-y-2 text-sm">
+            <div class="flex justify-between">
+                <span class="text-slate-400">Status:</span>
+                <span class="font-bold {{ britador.cor_status }}">{{ britador.status }}</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-slate-400">Vibração (eixo):</span>
+                <span class="text-white">{{ britador.vibracao }} mm/s</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-slate-400">Produção:</span>
+                <span class="text-white">{{ britador.producao }} ton/h</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="glass-effect-light p-6 rounded-lg border-l-4 {{ correia.borda_status }}">
+        <h4 class="text-lg font-bold text-white mb-3">Correia TR-105</h4>
+        <div class="space-y-2 text-sm">
+            <div class="flex justify-between">
+                <span class="text-slate-400">Status:</span>
+                <span class="font-bold {{ correia.cor_status }}">{{ correia.status }}</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-slate-400">Velocidade:</span>
+                <span class="text-white">{{ correia.velocidade }} m/s</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-slate-400">Temp. Motor:</span>
+                <span class="text-white">{{ correia.temp_motor }}°C</span>
+            </div>
+        </div>
+    </div>
+
+</div>

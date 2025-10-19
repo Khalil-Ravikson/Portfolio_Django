@@ -5,14 +5,91 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- LÓGICA DO MENU MOBILE ---
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
-    mobileMenuButton.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-    });
+    // Adicione esta checagem
+    if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    }
+
+
+
+
+
+
+    // Isso precisa ser feito ANTES do Alpine ser inicializado
+document.addEventListener('alpine:init', () => {
+    Alpine.data('oeeChart', (data) => ({
+        // Armazena os dados vindos do Django
+        availability: data.availability || 0,
+        performance: data.performance || 0,
+        quality: data.quality || 0,
+        oee: data.oee || 0,
+        
+        // Função que o x-init="renderChart()" irá chamar
+        renderChart() {
+            // $el é uma variável mágica do Alpine que aponta para o <div>
+            // Nós procuramos o canvas DENTRO dele
+            const ctx = this.$el.querySelector('#oee-chart-canvas').getContext('2d');
+            
+            // Destrói gráfico antigo se houver
+            // (Importante se o usuário enviar um segundo arquivo)
+            if (window.myOeeChart instanceof Chart) {
+                window.myOeeChart.destroy();
+            }
+
+            // Cria o novo gráfico
+            window.myOeeChart = new Chart(ctx, {
+                type: 'bar', // Tipo de gráfico
+                data: {
+                    labels: ['Disponibilidade', 'Performance', 'Qualidade', 'OEE Total'],
+                    datasets: [{
+                        label: 'Eficiência (%)',
+                        data: [this.availability, this.performance, this.quality, this.oee],
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.7)', // Azul
+                            'rgba(16, 185, 129, 0.7)', // Verde
+                            'rgba(245, 158, 11, 0.7)', // Amarelo
+                            'rgba(109, 40, 217, 0.7)'  // Indigo/Roxo
+                        ],
+                        borderColor: [
+                            'rgba(59, 130, 246, 1)',
+                            'rgba(16, 185, 129, 1)',
+                            'rgba(245, 158, 11, 1)',
+                            'rgba(109, 40, 217, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100, // OEE é de 0 a 100
+                            ticks: { color: '#94a3b8' } // Cor dos ticks (slate-400)
+                        },
+                        x: {
+                            ticks: { color: '#94a3b8' }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false // Esconde a legenda, já que só temos 1 dataset
+                        }
+                    },
+                    responsive: true,
+                    maintainAspectRatio: true
+                }
+            });
+        }
+    }));
+});
 
 
     // --- DADOS E LÓGICA DAS TECNOLOGIAS (ATUALIZADO) ---
     // NOTA: É recomendado usar Font Awesome ou ícones Lucide para ícones reais, 
     // mas mantive a estrutura SVG que você forneceu.
+    
     const technologies = [
         // Destaques
         { name: 'Python', icon: '<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-2.29 14.71a.75.75 0 01-1.06-1.06L11.88 12 8.65 8.77a.75.75 0 011.06-1.06L13 10.88l3.23-3.17a.75.75 0 111.06 1.06L14.12 12l3.23 3.17a.75.75 0 01-1.06 1.06L13 13.12l-3.29 3.59z"/></svg>' }, 
@@ -154,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 if(predictionResult) predictionResult.textContent = '-';
             };
-
+            
             const predictDigit = async () => {
                 if(predictionResult) predictionResult.textContent = '...';
 
@@ -223,7 +300,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     // 5. Enviar a imagem pré-processada para o nosso endpoint Django
                     const response = await fetch('/predict-digit/', {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': getCookie('csrftoken') // Adicione esta linha
+                        },
                         body: JSON.stringify({ image: imageDataUrl })
                     });
 
@@ -258,4 +338,20 @@ document.addEventListener('DOMContentLoaded', function() {
             clearBtn.addEventListener('click', clearCanvas);
         }
     }
+
+
+    function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 });

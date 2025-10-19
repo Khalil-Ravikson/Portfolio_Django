@@ -1,13 +1,87 @@
-<section id="demos" class="py-20 md:py-32 bg-slate-900/50">
+<section id="demos" class="py-20 md:py-32 bg-slate-900/50" x-data="{ activeDemo: 'iot' }">
+    
     <div class="container mx-auto px-6">
+        
         <h2 class="section-title text-center mx-auto max-w-lg">Demos Interativas</h2>
-        <p class="text-center text-slate-300 max-w-2xl mx-auto mb-12">Teste alguns dos meus modelos de IA em tempo real, diretamente no seu navegador.</p>
-        <div class="max-w-xl mx-auto glass-effect rounded-lg p-8">
+        <p class="text-center text-slate-300 max-w-2xl mx-auto mb-12">Teste ferramentas de monitoramento, análise de dados e modelos de IA em tempo real.</p>
+        
+        <div class="flex flex-wrap justify-center gap-4 mb-8">
+            <button 
+                @click="activeDemo = 'iot'" 
+                :class="{ 'bg-indigo-600 text-white': activeDemo === 'iot', 'bg-slate-700 text-slate-300 hover:bg-slate-600': activeDemo !== 'iot' }"
+                class="btn font-semibold py-2 px-6 rounded-lg transition-colors duration-200">
+                Monitor IoT "Ao Vivo"
+            </button>
+            <button 
+                @click="activeDemo = 'oee'" 
+                :class="{ 'bg-indigo-600 text-white': activeDemo === 'oee', 'bg-slate-700 text-slate-300 hover:bg-slate-600': activeDemo !== 'oee' }"
+                class="btn font-semibold py-2 px-6 rounded-lg transition-colors duration-200">
+                Análise OEE (Upload)
+            </button>
+            <button 
+                @click="activeDemo = 'mnist'"
+                :class="{ 'bg-indigo-600 text-white': activeDemo === 'mnist', 'bg-slate-700 text-slate-300 hover:bg-slate-600': activeDemo !== 'mnist' }"
+                class="btn font-semibold py-2 px-6 rounded-lg transition-colors duration-200">
+                Reconhecedor IA (MNIST)
+            </button>
+        </div>
+
+        <div x-show="activeDemo === 'iot'" x-cloak class="glass-effect rounded-lg p-8 max-w-4xl mx-auto">
+            <h3 class="text-xl font-bold text-white mb-4">Monitor de Ativos (Simulado)</h3>
+            <p class="text-slate-400 mb-6">
+                Dashboard simulando dados de sensores IoT (temperatura, vibração, status) 
+                sendo recebidos em tempo real de equipamentos industriais. 
+                Os dados são atualizados a cada 2 segundos.
+            </p>
+            <div id="iot-dashboard-wrapper" 
+                 hx-get="{% url 'demo_iot_data' %}" 
+                 hx-trigger="load, every 2s" 
+                 hx-swap="innerHTML">
+                
+                <div class="flex justify-center items-center h-48">
+                    <p class="text-slate-300">Conectando aos sensores...</p>
+                </div>
+            </div>
+        </div>
+
+        <div x-show="activeDemo === 'oee'" x-cloak class="glass-effect rounded-lg p-8 max-w-3xl mx-auto">
+            <h3 class="text-xl font-bold text-white mb-4">Dashboard de Eficiência (OEE)</h3>
+            <p class="text-slate-400 mb-6">
+                Faça o upload de um arquivo CSV ou Excel com dados de produção (disponibilidade, performance) 
+                para calcular o OEE (Overall Equipment Effectiveness).
+            </p>
+            <form 
+                hx-post="{% url 'demo_analise_oee' %}" 
+                hx-target="#oee-results-wrapper" 
+                hx-swap="innerHTML"
+                hx-encoding="multipart/form-data"
+                hx-indicator="#oee-loader"
+                class="mb-6">
+                {% csrf_token %}
+                <input type="file" name="arquivo_csv" required
+                       class="block w-full text-sm text-slate-300
+                              file:mr-4 file:py-2 file:px-4
+                              file:rounded-lg file:border-0
+                              file:text-sm file:font-semibold
+                              file:bg-indigo-600 file:text-white
+                              hover:file:bg-indigo-700 cursor-pointer"/>
+                <button type="submit" class="btn-primary font-semibold py-2 px-6 rounded-lg mt-4">
+                    Analisar
+                </button>
+                <span id="oee-loader" class="htmx-indicator ml-4 text-slate-300">
+                    Processando...
+                </span>
+            </form>
+            <div id="oee-results-wrapper" class="mt-6">
+                <p class="text-center text-slate-500">Aguardando arquivo para análise...</p>
+            </div>
+        </div>
+
+        <div x-show="activeDemo === 'mnist'" x-cloak class="max-w-xl mx-auto glass-effect rounded-lg p-8">
             <h3 class="text-xl font-bold text-white mb-4">Reconhecedor de Dígitos (MNIST)</h3>
             <p class="text-slate-400 mb-6">Desenhe um número de 0 a 9 no quadro abaixo. Uma rede neural convolucional tentará adivinhar o que você escreveu.</p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
                 <div>
-                    <!-- A largura e altura do canvas são cruciais para o pré-processamento no main.js -->
                     <canvas id="digit-canvas" width="280" height="280" class="bg-white rounded-md cursor-crosshair mx-auto"></canvas>
                     <div class="flex justify-center space-x-4 mt-4">
                         <button id="predict-btn" class="btn-primary font-semibold py-2 px-6 rounded-lg">Prever</button>
@@ -20,5 +94,5 @@
                 </div>
             </div>
         </div>
-    </div>
-</section>
+
+    </div> </section> 
