@@ -92,20 +92,18 @@ document.addEventListener('alpine:init', () => {
     
     const technologies = [
         // Destaques
-        { name: 'Python', icon: '<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-2.29 14.71a.75.75 0 01-1.06-1.06L11.88 12 8.65 8.77a.75.75 0 011.06-1.06L13 10.88l3.23-3.17a.75.75 0 111.06 1.06L14.12 12l3.23 3.17a.75.75 0 01-1.06 1.06L13 13.12l-3.29 3.59z"/></svg>' }, 
-        { name: 'TensorFlow', icon: '<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 002 12a10 10 0 0010 10 10 10 0 0010-10A10 10 0 0012 2zm-1 16H8a1 1 0 01-1-1v-4a1 1 0 011-1h3v6zm5-10h-3V6h3a1 1 0 011 1v4a1 1 0 01-1 1z"/></svg>' }, 
-        { name: 'Django', icon: '<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-2 16h4V6h-4v12z"/></svg>' }, 
-        { name: 'Docker', icon: '<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 002 12a10 10 0 0010 10 10 10 0 0010-10A10 10 0 0012 2zm3 15h-6v-2h6v2zm-6-4h6v-2h-6v2zm6-4H9V7h6v2z"/></svg>' }, 
-        { name: 'AutoCAD', icon: '<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zm0 11.5L4.5 10.25l7.5-3.75 7.5 3.75L12 13.5zM2 17l10 5 10-5-10-5-10 5z"/></svg>' },
-        { name: 'Excel', icon: '<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M21.17 3.25a2 2 0 00-2-2H4.83a2 2 0 00-2 2v17.5a2 2 0 002 2h14.34a2 2 0 002-2V3.25zm-14.9 15.5l3.54-3.54-3.54-3.54h2.83l2.12 2.12 2.12-2.12h2.83l-3.54 3.54 3.54 3.54h-2.83l-2.12-2.12-2.12 2.12H6.27z"/></svg>' },
-        { name: 'n8n', icon: '<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-2.29 14.71a.75.75 0 01-1.06-1.06L11.88 12 8.65 8.77a.75.75 0 011.06-1.06L13 10.88l3.23-3.17a.75.75 0 111.06 1.06L14.12 12l3.23 3.17a.75.75 0 01-1.06 1.06L13 13.12l-3.29 3.59z"/></svg>' },
-        { name: 'JavaScript', icon: '<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm3 15h-2.5v-2h-1.5v2H9v-6h6v6z"/></svg>' }, 
-
-        // Outras Tecnologias
-        { name: 'PyTorch', icon: '<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16z"/></svg>' }, 
-        { name: 'Scikit-learn', icon: '<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16z"/></svg>' }, 
-        { name: 'Git', icon: '<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-4h2v4zm0-6h-2V7h2v4z"/></svg>' }, 
-        { name: 'SQL', icon: '<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-2 16h4v-2h-4v2zm0-4h4v-2h-4v2zm0-4h4V6h-4v2z"/></svg>' }, 
+        { name: 'Python', filename: 'python-svgrepo-com.svg' },
+        { name: 'TensorFlow', filename: 'tensorflow-svgrepo-com.svg' },
+        { name: 'Django', filename: 'django-icon-svgrepo-com.svg' },
+        { name: 'Docker', filename: 'docker-svgrepo-com.svg' },
+        { name: 'AutoCAD', filename: 'autocad-svgrepo-com.svg' },
+        { name: 'Excel', filename: 'excel2-svgrepo-com.svg' },
+        { name: 'n8n', filename: 'n8n-color.svg' },
+        { name: 'Git', filename: 'git-svgrepo-com.svg' },
+        { name: 'Scikit-learn', filename: 'scikit-learn.svg' },
+        // Adicione outras tecnologias aqui se tiver os ficheiros SVG
+        // { name: 'JavaScript', filename: 'javascript.svg' }, 
+        // { name: 'SQL', filename: 'sql.svg' }, 
     ];
 
     function renderTechnologies() {
@@ -113,7 +111,10 @@ document.addEventListener('alpine:init', () => {
         if (container) {
             container.innerHTML = technologies.map(tech => `
                 <div class="text-center transition-transform hover:scale-110 hover:text-white flex flex-col items-center">
-                    <div class="w-12 h-12 mb-2 flex items-center justify-center">${tech.icon}</div>
+                    <div class="w-12 h-12 mb-2 flex items-center justify-center">
+                        <!-- A imagem é carregada a partir da sua pasta static -->
+                        <img src="/static/images/icons/${tech.filename}" alt="${tech.name} icon" class="tech-icon">
+                    </div>
                     <span>${tech.name}</span>
                 </div>
             `).join('');
