@@ -1,0 +1,32 @@
+<!-- partials/_sensor_dashboard.html -->
+
+{% if not data_available %}
+<div class="text-center p-8">
+    <p class="text-slate-400">Ainda não foram recebidos dados do sensor. Inicie a simulação no Wokwi.</p>
+</div>
+{% else %}
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Card de Temperatura -->
+    <div class="glass-effect-light p-6 rounded-lg text-center">
+        <h4 class="text-lg font-bold text-slate-300 mb-2">Temperatura</h4>
+        <p class="text-5xl font-bold text-white">
+            {{ sensor_data.temperature|floatformat:1 }}<span class="text-3xl text-slate-400">°C</span>
+        </p>
+    </div>
+    <!-- Card de Humidade -->
+    <div class="glass-effect-light p-6 rounded-lg text-center">
+        <h4 class="text-lg font-bold text-slate-300 mb-2">Humidade</h4>
+        <p class="text-5xl font-bold text-white">
+            {{ sensor_data.humidity|floatformat:1 }}<span class="text-3xl text-slate-400">%</span>
+        </p>
+    </div>
+    <!-- Card de Luz -->
+    <div class="glass-effect-light p-6 rounded-lg text-center">
+        <h4 class="text-lg font-bold text-slate-300 mb-2">Luminosidade</h4>
+        <p class="text-5xl font-bold text-white">
+            {{ sensor_data.light|floatformat:0 }}<span class="text-3xl text-slate-400">%</span>
+        </p>
+    </div>
+</div>
+<p class="text-xs text-center text-slate-500 mt-4">ID do Dispositivo: {{ sensor_data.device_id }}</p>
+{% endif %}

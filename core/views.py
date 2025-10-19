@@ -1,13 +1,12 @@
 from django.shortcuts import render
 import random
-from django.http import JsonResponse 
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.conf import settings
 import numpy as np
 import pandas as pd
 import json
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from PIL import Image
 import base64
 import io
@@ -215,3 +214,39 @@ def demo_iot_data_view(request: HttpRequest) -> HttpResponse:
 
     # Renderiza e retorna APENAS o fragmento HTML
     return render(request, 'partials/_iot_cards.html', context)
+
+
+    # O ficheiro onde vamos guardar o último dado do sensor
+LATEST_DATA_FILE = os.path.join(settings.BASE_DIR, 'latest_sensor_data.json')
+
+@csrf_exempt  # O Wokwi não envia um token CSRF, então precisamos de isentar esta view
+@require_POST
+def receive_sensor_data_view(request: HttpRequest) -> JsonResponse:
+    """ Recebe os dados JSON do Wokwi e guarda-os. """
+    try:
+        data = json.loads(request.body)
+        # Validação simples
+        if 'temperature' in data and 'humidity' in data:
+            with open(LATEST_DATA_FILE, 'w') as f:
+                json.dump(data, f)
+            return JsonResponse({"status": "sucesso", "dados_recebidos": data})
+        else:
+            return JsonResponse({"status": "erro", "mensagem": "Dados em falta"}, status=400)
+    except Exception as e:
+        return JsonResponse({"status": "erro", "mensagem": str(e)}, status=500)
+
+
+def get_sensor_dashboard_view(request: HttpRequest) -> HttpResponse:
+    """ Lê o último dado guardado e renderiza o dashboard. """
+    context = {"data_available": False}
+    try:
+        if os.path.exists(LATEST_DATA_FILE):
+            with open(LATEST_DATA_FILE, 'r') as f:
+                data = json.load(f)
+                context['sensor_data'] = data
+                context['data_available'] = True
+    except:
+        # Se o ficheiro estiver corrompido ou vazio, não faz nada
+        pass
+    
+    return render(request, 'partials/_sensor_dashboard.html', context)
