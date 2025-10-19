@@ -219,16 +219,19 @@ def demo_iot_data_view(request: HttpRequest) -> HttpResponse:
     # O ficheiro onde vamos guardar o último dado do sensor
 LATEST_DATA_FILE = os.path.join(settings.BASE_DIR, 'latest_sensor_data.json')
 
-@csrf_exempt  # O Wokwi não envia um token CSRF, então precisamos de isentar esta view
+latest_sensor_data = {}
+
+
+@csrf_exempt
 @require_POST
 def receive_sensor_data_view(request: HttpRequest) -> JsonResponse:
-    """ Recebe os dados JSON do Wokwi e guarda-os. """
+    """ Recebe os dados JSON do Wokwi e guarda-os na memória. """
+    global latest_sensor_data # Precisamos de declarar que vamos modificar a variável global
     try:
         data = json.loads(request.body)
-        # Validação simples
         if 'temperature' in data and 'humidity' in data:
-            with open(LATEST_DATA_FILE, 'w') as f:
-                json.dump(data, f)
+            # --- CORREÇÃO 2: Em vez de escrever num ficheiro, atualizamos a variável ---
+            latest_sensor_data = data
             return JsonResponse({"status": "sucesso", "dados_recebidos": data})
         else:
             return JsonResponse({"status": "erro", "mensagem": "Dados em falta"}, status=400)
@@ -237,16 +240,12 @@ def receive_sensor_data_view(request: HttpRequest) -> JsonResponse:
 
 
 def get_sensor_dashboard_view(request: HttpRequest) -> HttpResponse:
-    """ Lê o último dado guardado e renderiza o dashboard. """
+    """ Lê o último dado da memória e renderiza o dashboard. """
     context = {"data_available": False}
-    try:
-        if os.path.exists(LATEST_DATA_FILE):
-            with open(LATEST_DATA_FILE, 'r') as f:
-                data = json.load(f)
-                context['sensor_data'] = data
-                context['data_available'] = True
-    except:
-        # Se o ficheiro estiver corrompido ou vazio, não faz nada
-        pass
+    
+    # --- CORREÇÃO 3: Lemos da variável em vez do ficheiro ---
+    if latest_sensor_data:
+        context['sensor_data'] = latest_sensor_data
+        context['data_available'] = True
     
     return render(request, 'partials/_sensor_dashboard.html', context)
