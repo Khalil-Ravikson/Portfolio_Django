@@ -102,8 +102,14 @@ document.addEventListener('alpine:init', () => {
         { name: 'Git', filename: 'git-svgrepo-com.svg' },
         { name: 'Scikit-learn', filename: 'scikit-learn.svg' },
         // Adicione outras tecnologias aqui se tiver os ficheiros SVG
-        // { name: 'JavaScript', filename: 'javascript.svg' }, 
-        // { name: 'SQL', filename: 'sql.svg' }, 
+        { name: 'JavaScript', filename: 'javascript.svg' }, 
+        { name: 'SQL', filename: 'sql-svgrepo-com.svg' },
+        { name: 'PowerBI', filename: 'power-bi-icon.svg' },
+        { name: 'Linux', filename: 'linux.svg' },
+        { name: 'java', filename: 'java.svg' },
+        { name: 'microsoft teams', filename: 'microsoft-teams-svgrepo-com.svg' },
+        
+
     ];
 
     function renderTechnologies() {
